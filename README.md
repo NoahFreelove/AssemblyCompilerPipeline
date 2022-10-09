@@ -1,5 +1,5 @@
 # AssemblyCompilerPipeline
-Very basic way to compile and execute win32 NASM files
+Very basic NASM pipeline.
 
 How it works:
 1. Provide path to nasm.exe
