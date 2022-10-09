@@ -11,6 +11,17 @@ internal static class Program
         var nasmPath = args[0];
         var gccPath = args[1];
         var asmFile = args[2];
+        var execute = true;
+
+        if (args.Length >= 4)
+        {
+            execute = args[3] switch
+            {
+                "execute=false" => false,
+                "execute=true" => true,
+                _ => execute
+            };
+        }
 
         Console.WriteLine("Compiling to Object file...");
         CompileToObject(nasmPath, asmFile, out var compileResult);
@@ -18,6 +29,8 @@ internal static class Program
         Console.WriteLine("Linking to Executable file...");
         Link(gccPath, asmFile, out var linkResult);
         Console.WriteLine("LinkResult: " + linkResult);
+        if(!execute)
+            return;
         Console.WriteLine("Executing...");
         Execute(asmFile, out var output);
         Console.WriteLine("Output: " + output);
