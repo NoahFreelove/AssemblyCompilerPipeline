@@ -13,6 +13,7 @@ public static class ExecuteCommands
             compiler.StartInfo.FileName = "cmd.exe";
             compiler.StartInfo.Arguments = "/C " + command;
             compiler.StartInfo.UseShellExecute = false;
+            compiler.StartInfo.CreateNoWindow = true;
             compiler.StartInfo.RedirectStandardOutput = true;
             compiler.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
