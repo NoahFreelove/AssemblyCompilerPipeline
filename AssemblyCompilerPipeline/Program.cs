@@ -1,8 +1,23 @@
-﻿
-namespace AssemblyCompilerPipeline;
+﻿namespace AssemblyCompilerPipeline;
 
-internal static class Program
+public static class Program
 {
+    public static string Run(string[] args)
+    {
+        switch (args.Length)
+        {
+            case < 3:
+                return "invalid arguments: expected at least 3";
+            case >= 4:
+                args[3] = "execute=false";
+                break;
+        }
+
+        Main(args);
+        
+        return ExecuteWithoutOutput(args[2]);
+    }
+
     private static void Main(string[] args)
     {
         if(args.Length < 3)
@@ -54,6 +69,11 @@ internal static class Program
         Console.WriteLine("Executing...");
         var text = file.Replace(".asm", ".exe");
         Console.WriteLine("Output: " + ExecuteCommands.ExecuteCommand(text));
+    }
 
+    private static string ExecuteWithoutOutput(string file)
+    {
+        var text = file.Replace(".asm", ".exe");
+        return ExecuteCommands.ExecuteCommand(text);
     }
 }
