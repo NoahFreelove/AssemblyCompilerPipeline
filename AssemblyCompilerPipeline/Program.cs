@@ -23,35 +23,37 @@ internal static class Program
             };
         }
 
-        Console.WriteLine("Compiling to Object file...");
-        CompileToObject(nasmPath, asmFile, out var compileResult);
-        Console.WriteLine("CompileResult: " + compileResult);
-        Console.WriteLine("Linking to Executable file...");
-        Link(gccPath, asmFile, out var linkResult);
-        Console.WriteLine("LinkResult: " + linkResult);
-        if(!execute)
-            return;
-        Console.WriteLine("Executing...");
-        Execute(asmFile, out var output);
-        Console.WriteLine("Output: " + output);
+        CompileToObject(nasmPath, asmFile);
+        Link(gccPath, asmFile);
+        
+        if(execute)
+            Execute(asmFile);
+        
     }
 
-    private static void CompileToObject(string nasm, string file, out string result)
+    private static void CompileToObject(string nasm, string file)
     {
-        string text = nasm + " -fwin32 " + file;
-        result = ExecuteCommands.ExecuteCommand(text);
+        Console.WriteLine("Compiling to Object file...");
+
+        var text = nasm + " -fwin32 " + file;
+        Console.WriteLine("CompileResult: " + ExecuteCommands.ExecuteCommand(text));
     }
     
-    private static void Link(string gcc, string file, out string result)
+    private static void Link(string gcc, string file)
     {
-        string rawFilePath = file.Replace(".asm", "");
-        string text = gcc  + " " + rawFilePath + ".obj" + " -o " + rawFilePath + ".exe"; 
-        result = ExecuteCommands.ExecuteCommand(text);
+        Console.WriteLine("Linking to Executable file...");
+        var rawFilePath = file.Replace(".asm", "");
+        var text = gcc  + " " + rawFilePath + ".obj" + " -o " + rawFilePath + ".exe"; 
+        
+        Console.WriteLine("LinkResult: " + ExecuteCommands.ExecuteCommand(text));
+
     }
     
-    private static void Execute(string file, out string result)
+    private static void Execute(string file)
     {
-        string text = file.Replace(".asm", ".exe");
-        result = ExecuteCommands.ExecuteCommand(text);
+        Console.WriteLine("Executing...");
+        var text = file.Replace(".asm", ".exe");
+        Console.WriteLine("Output: " + ExecuteCommands.ExecuteCommand(text));
+
     }
 }

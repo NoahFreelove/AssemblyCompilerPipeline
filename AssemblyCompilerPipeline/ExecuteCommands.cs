@@ -4,15 +4,14 @@ namespace AssemblyCompilerPipeline;
 
 public static class ExecuteCommands
 {
-    public static string ExecuteCommand(string cmd)
-
+    public static string ExecuteCommand(string command)
     {
         try
         {
             using var compiler = new Process();
             
             compiler.StartInfo.FileName = "cmd.exe";
-            compiler.StartInfo.Arguments = "/C " + cmd;
+            compiler.StartInfo.Arguments = "/C " + command;
             compiler.StartInfo.UseShellExecute = false;
             compiler.StartInfo.RedirectStandardOutput = true;
             compiler.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
